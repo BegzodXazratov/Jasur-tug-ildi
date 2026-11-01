@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jasur Tug'ildi! 😱</title>
+    <style>
+        body {
+            /* Ko'zni qamashtiradigan harakatlanuvchi fon */
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ff0000, #00ff00, #ffff00);
+            background-size: 400% 400%;
+            animation: gradientBG 3s ease infinite;
+            color: white;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif;
+            text-align: center;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1 {
+            font-size: 4rem;
+            text-shadow: 5px 5px #000, -2px -2px #f0f;
+            margin-top: 10vh;
+            animation: shake 0.4s infinite;
+        }
+
+        @keyframes shake {
+            0% { transform: translate(2px, 1px) rotate(0deg); }
+            25% { transform: translate(-2px, -3px) rotate(-2deg); }
+            50% { transform: translate(-4px, 0px) rotate(2deg); }
+            75% { transform: translate(3px, 3px) rotate(-1deg); }
+            100% { transform: translate(1px, -2px) rotate(0deg); }
+        }
+
+        .scroll-space {
+            height: 180vh; /* Saytni uzun qilib skroll qilish uchun */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .jasur-img {
+            width: 300px;
+            border-radius: 50%;
+            border: 10px dashed #fff;
+            box-shadow: 0 0 30px #0ff;
+            animation: spin 4s linear infinite;
+            margin-top: 20px;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .middle-finger {
+            font-size: 4rem;
+            background-color: #ffff00;
+            color: #ff0000;
+            padding: 30px;
+            border: 15px dotted #0000ff;
+            border-radius: 20px;
+            text-shadow: 2px 2px #000;
+            transform: rotate(-10deg);
+            animation: pulse 0.5s infinite alternate;
+            margin-bottom: 50vh;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1) rotate(-10deg); }
+            100% { transform: scale(1.3) rotate(10deg); }
+        }
+
+        marquee {
+            font-size: 2.5rem;
+            background: black;
+            color: lime;
+            padding: 15px;
+            font-weight: bold;
+        }
+        
+        .taunt-text {
+            font-size: 2rem;
+            color: yellow;
+            text-shadow: 2px 2px black;
+        }
+    </style>
+</head>
+<body>
+    <!-- Eng asabga tegadigan yuguruvchi qator -->
+    <marquee scrollamount="25">🚨 DIQQAT! DIQQAT! JASUR TUG'ILDI! 🚨 QARISH MUBORAK! 🚨</marquee>
+
+    <h1>Jasur, Tug'ilgan kuning bilan! 🎂💀</h1>
+    
+    <p style="font-size: 2rem; background: black; display: inline-block; padding: 10px;">Pastga skroll qil... yuraging yetsa!</p>
+
+    <br>
+    <!-- Rasm aynan siz aytgan fayl nomida chaqirilgan -->
+    <img src="image_ff1da6.png" alt="Jasur" class="jasur-img">
+
+    <div class="scroll-space">
+        <p class="taunt-text">Haliyam skroll qilyapsanmi? 😂</p>
+        <p class="taunt-text" style="transform: scale(1.5);">Yana ozgina tush...</p>
+        <p class="taunt-text" style="transform: rotate(180deg);">Barmoq charchamadimi?</p>
+        <p class="taunt-text" style="font-size: 3rem;">Hozir... kelib qoldi...</p>
+    </div>
+
+    <!-- Asosiy kutilgan joy -->
+    <div class="middle-finger">
+        🖕 Kayfingga o'rtancha barmog'im! 🖕<br>
+        <span style="font-size: 1.5rem; color: black; text-shadow: none;">(Hazil jigar, uzoq yasha, bor bo'l! 🎉🍻)</span>
+    </div>
+
+    <marquee direction="right" scrollamount="35" style="background: red; color: white;">🚀 Begzod tomonidan maxsus! 🚀</marquee>
+</body>
+</html>
