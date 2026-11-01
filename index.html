@@ -37,7 +37,6 @@
             100% { transform: translate(1px, -2px) rotate(0deg); }
         }
 
-        /* 1. GUL G'UNCHASIDAN CHIQISH ANIMATSIYASI */
         .flower-birth {
             position: relative;
             width: 100%;
@@ -70,7 +69,6 @@
             100% { transform: translateY(-30px) scale(1); opacity: 1; }
         }
 
-        /* SKROLL QISMI */
         .scroll-space {
             height: 150vh; 
             display: flex;
@@ -87,7 +85,6 @@
             text-shadow: 2px 2px black;
         }
 
-        /* O'RTANCHA BARMOQ */
         .middle-finger {
             font-size: 4rem;
             background-color: #ffff00;
@@ -119,7 +116,6 @@
             z-index: 2;
         }
 
-        /* 2. TEPADAN TUSHAYOTGAN JASUR VA KAPALAKLAR */
         #falling-jasur {
             position: fixed;
             top: -300px;
@@ -127,7 +123,7 @@
             transform: translateX(-50%);
             width: 180px;
             z-index: 999;
-            pointer-events: none; /* Skrollga xalaqit bermaydi */
+            pointer-events: none;
             animation: fallEndlessly 10s linear infinite;
         }
 
@@ -137,7 +133,6 @@
             100% { top: 120vh; transform: translateX(-50%) rotate(-15deg); }
         }
 
-        /* JS orqali yaratiladigan kapalaklar uchun uslub */
         .butterfly-trail {
             position: fixed;
             font-size: 40px;
@@ -151,6 +146,12 @@
             100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(2) rotate(var(--rot)); }
         }
 
+        /* Yashirin YouTube Player uchun joy */
+        #youtube-player {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
     </style>
 </head>
 <body>
@@ -158,7 +159,9 @@
 
     <h1>Jasur, Tug'ilgan kuning bilan! 🎂💀</h1>
     
-    <!-- 1-BEMANI KADR: G'unchadan tug'ilayotgan Jasur -->
+    <!-- YASHIRIN YOUTUBE API PLAYERI -->
+    <div id="youtube-player"></div>
+
     <div class="flower-birth">
         <!-- Z-index yordamida rasm gullarning orqasidan chiqadi -->
         <img src="53130401-3261-4234-9a38-1346ae8b0950_removalai_preview.png" alt="Gul Jasur" class="flower-jasur">
@@ -179,36 +182,76 @@
         <span style="font-size: 1.5rem; color: black; text-shadow: none;">(Hazil jigar, uzoq yasha, bor bo'l! 🎉🍻)</span>
     </div>
 
-    <!-- 2-BEMANI KADR: Tepadan tushib keladigan asosiy rasm -->
     <img id="falling-jasur" src="53130401-3261-4234-9a38-1346ae8b0950_removalai_preview.png" alt="Falling Jasur">
 
-    <!-- Kapalaklar izini qoldiruvchi skript -->
+    <!-- YouTube API va Kapalaklar Skripti -->
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
+        // 1. YouTube IFrame API va 1.5x tezlik sozlamalari
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-player', {
+                height: '0',
+                width: '0',
+                videoId: 'F2RnxZnubCM', // Titanik musiqasi IDsi
+                playerVars: {
+                    'autoplay': 1,
+                    'controls': 0,
+                    'loop': 1,
+                    'playlist': 'F2RnxZnubCM'
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            // Musiqa tezligini 1.5x qilib qo'yamiz
+            event.target.setPlaybackRate(1.5);
+            event.target.playVideo(); // Sayt yuklanishi bilan yoqishga urinish
+        }
+
+        // Brauzer avtoplayni bloklagan bo'lsa, foydalanuvchi ekranga tekkanda yoki skroll qilganda majburan yoqish
+        let isPlaying = false;
+        function forcePlayMusic() {
+            if (!isPlaying && player && typeof player.playVideo === 'function') {
+                player.playVideo();
+                player.setPlaybackRate(1.5);
+                isPlaying = true;
+                
+                // Musiqa yongandan keyin event listenerlarni o'chirib tashlaymiz
+                document.removeEventListener('click', forcePlayMusic);
+                document.removeEventListener('scroll', forcePlayMusic);
+                document.removeEventListener('touchstart', forcePlayMusic);
+            }
+        }
+
+        document.addEventListener('click', forcePlayMusic);
+        document.addEventListener('scroll', forcePlayMusic);
+        document.addEventListener('touchstart', forcePlayMusic);
+
+
+        // 2. Kapalaklar izini qoldiruvchi skript
         const fallingJasur = document.getElementById('falling-jasur');
         
-        // Har 150 millisekundda Jasurning orqasidan bitta kapalak yaratiladi
         setInterval(() => {
             const rect = fallingJasur.getBoundingClientRect();
-            
-            // Ekranda ko'rinib turgandagina kapalak chiqaramiz
             if(rect.top > window.innerHeight || rect.bottom < 0) return;
 
             const butterfly = document.createElement('div');
             butterfly.className = 'butterfly-trail';
             butterfly.innerText = '🦋';
             
-            // Kapalak aynan rasmning o'rtasidan chiqishi uchun joylashuv
             butterfly.style.left = (rect.left + rect.width / 2 - 20) + 'px';
             butterfly.style.top = (rect.top + rect.height / 2 - 20) + 'px';
             
-            // Har bir kapalak har xil tomonga uchib ketishi uchun tasodifiy yo'nalishlar
             butterfly.style.setProperty('--dx', (Math.random() * 300 - 150) + 'px');
             butterfly.style.setProperty('--dy', (Math.random() * -300 - 50) + 'px');
             butterfly.style.setProperty('--rot', (Math.random() * 360) + 'deg');
             
             document.body.appendChild(butterfly);
             
-            // Kapalak uchib bo'lgach (2 sekunddan keyin) DOM dan o'chirib tashlaymiz (qotib qolmasligi uchun)
             setTimeout(() => {
                 butterfly.remove();
             }, 2000);
