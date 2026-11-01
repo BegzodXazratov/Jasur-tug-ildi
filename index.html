@@ -6,7 +6,6 @@
     <title>Jasur Tug'ildi! 😱</title>
     <style>
         body {
-            /* Ranglar endi juda sekin (15 sekundda) almashadi, ko'zni qamashtirmaydi */
             background: linear-gradient(45deg, #ff00ff, #00ffff, #ff0000, #00ff00, #ffff00);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
@@ -26,7 +25,7 @@
         h1 {
             font-size: 4rem;
             text-shadow: 5px 5px #000, -2px -2px #f0f;
-            margin-top: 10vh;
+            margin-top: 5vh;
             animation: shake 0.4s infinite;
         }
 
@@ -38,27 +37,57 @@
             100% { transform: translate(1px, -2px) rotate(0deg); }
         }
 
+        /* 1. GUL G'UNCHASIDAN CHIQISH ANIMATSIYASI */
+        .flower-birth {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            overflow: hidden;
+        }
+
+        .flower-emojis {
+            font-size: 120px;
+            position: absolute;
+            bottom: -20px;
+            z-index: 10;
+            letter-spacing: -20px;
+        }
+
+        .flower-jasur {
+            width: 250px;
+            position: absolute;
+            z-index: 5;
+            bottom: 0;
+            animation: riseFromFlowers 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes riseFromFlowers {
+            0% { transform: translateY(200px) scale(0.5); opacity: 0; }
+            100% { transform: translateY(-30px) scale(1); opacity: 1; }
+        }
+
+        /* SKROLL QISMI */
         .scroll-space {
-            height: 180vh; 
+            height: 150vh; 
             display: flex;
             flex-direction: column;
             justify-content: space-around;
             align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .taunt-text {
+            font-size: 2rem;
+            color: yellow;
+            text-shadow: 2px 2px black;
         }
 
-        .jasur-img {
-            width: 300px;
-            border-radius: 50%;
-            border: 10px dashed #fff;
-            box-shadow: 0 0 30px #0ff;
-            animation: spin 4s linear infinite;
-            margin-top: 20px;
-        }
-
-        @keyframes spin {
-            100% { transform: rotate(360deg); }
-        }
-
+        /* O'RTANCHA BARMOQ */
         .middle-finger {
             font-size: 4rem;
             background-color: #ffff00;
@@ -69,7 +98,10 @@
             text-shadow: 2px 2px #000;
             transform: rotate(-10deg);
             animation: pulse 0.5s infinite alternate;
-            margin-bottom: 10vh;
+            margin-bottom: 20vh;
+            display: inline-block;
+            position: relative;
+            z-index: 2;
         }
 
         @keyframes pulse {
@@ -83,45 +115,42 @@
             color: lime;
             padding: 15px;
             font-weight: bold;
-        }
-        
-        .taunt-text {
-            font-size: 2rem;
-            color: yellow;
-            text-shadow: 2px 2px black;
-        }
-
-        /* Kapalak Jasur qismi uchun uslublar */
-        .kapalak-container {
             position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 40vh; /* Eng pastda osilib turishi uchun joy */
-            margin-top: 15vh;
+            z-index: 2;
         }
 
-        .qanotlar {
-            position: absolute;
-            font-size: 350px; /* Gigant kapalak emojisi */
-            z-index: -1;
-            animation: qanotQoqish 0.15s infinite alternate; /* Tezkor qanot qoqish effekti */
+        /* 2. TEPADAN TUSHAYOTGAN JASUR VA KAPALAKLAR */
+        #falling-jasur {
+            position: fixed;
+            top: -300px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            z-index: 999;
+            pointer-events: none; /* Skrollga xalaqit bermaydi */
+            animation: fallEndlessly 10s linear infinite;
         }
 
-        .jasur-kalla {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 5px solid #ff00ff;
-            box-shadow: 0 0 20px #ff00ff;
-            z-index: 1;
+        @keyframes fallEndlessly {
+            0% { top: -300px; transform: translateX(-50%) rotate(-15deg); }
+            50% { transform: translateX(-50%) rotate(15deg); }
+            100% { top: 120vh; transform: translateX(-50%) rotate(-15deg); }
         }
 
-        @keyframes qanotQoqish {
-            0% { transform: scaleX(1) translateY(0); }
-            100% { transform: scaleX(0.3) translateY(-30px); }
+        /* JS orqali yaratiladigan kapalaklar uchun uslub */
+        .butterfly-trail {
+            position: fixed;
+            font-size: 40px;
+            z-index: 998;
+            pointer-events: none;
+            animation: flyAway 2s forwards;
         }
+
+        @keyframes flyAway {
+            0% { opacity: 1; transform: translate(0, 0) scale(1) rotate(0deg); }
+            100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(2) rotate(var(--rot)); }
+        }
+
     </style>
 </head>
 <body>
@@ -129,10 +158,14 @@
 
     <h1>Jasur, Tug'ilgan kuning bilan! 🎂💀</h1>
     
-    <p style="font-size: 2rem; background: black; display: inline-block; padding: 10px;">Pastga skroll qil... yuraging yetsa!</p>
+    <!-- 1-BEMANI KADR: G'unchadan tug'ilayotgan Jasur -->
+    <div class="flower-birth">
+        <!-- Z-index yordamida rasm gullarning orqasidan chiqadi -->
+        <img src="53130401-3261-4234-9a38-1346ae8b0950_removalai_preview.png" alt="Gul Jasur" class="flower-jasur">
+        <div class="flower-emojis">🌷🌹🌺🌸🌻</div>
+    </div>
 
-    <br>
-    <img src="image_ff1da6.png" alt="Jasur" class="jasur-img">
+    <p style="font-size: 2rem; background: black; display: inline-block; padding: 10px; z-index: 2; position: relative;">Pastga skroll qil... yuraging yetsa!</p>
 
     <div class="scroll-space">
         <p class="taunt-text">Haliyam skroll qilyapsanmi? 😂</p>
@@ -146,12 +179,41 @@
         <span style="font-size: 1.5rem; color: black; text-shadow: none;">(Hazil jigar, uzoq yasha, bor bo'l! 🎉🍻)</span>
     </div>
 
-    <!-- Kapalak Jasur qismi -->
-    <div class="kapalak-container">
-        <div class="qanotlar">🦋</div>
-        <!-- Agar boshqa rasm qo'shsangiz, mana shu src=" " ichidagi nomni o'zgartiring -->
-        <img src="image_ff1da6.png" alt="Jasur Kapalak" class="jasur-kalla">
-    </div>
+    <!-- 2-BEMANI KADR: Tepadan tushib keladigan asosiy rasm -->
+    <img id="falling-jasur" src="53130401-3261-4234-9a38-1346ae8b0950_removalai_preview.png" alt="Falling Jasur">
 
+    <!-- Kapalaklar izini qoldiruvchi skript -->
+    <script>
+        const fallingJasur = document.getElementById('falling-jasur');
+        
+        // Har 150 millisekundda Jasurning orqasidan bitta kapalak yaratiladi
+        setInterval(() => {
+            const rect = fallingJasur.getBoundingClientRect();
+            
+            // Ekranda ko'rinib turgandagina kapalak chiqaramiz
+            if(rect.top > window.innerHeight || rect.bottom < 0) return;
+
+            const butterfly = document.createElement('div');
+            butterfly.className = 'butterfly-trail';
+            butterfly.innerText = '🦋';
+            
+            // Kapalak aynan rasmning o'rtasidan chiqishi uchun joylashuv
+            butterfly.style.left = (rect.left + rect.width / 2 - 20) + 'px';
+            butterfly.style.top = (rect.top + rect.height / 2 - 20) + 'px';
+            
+            // Har bir kapalak har xil tomonga uchib ketishi uchun tasodifiy yo'nalishlar
+            butterfly.style.setProperty('--dx', (Math.random() * 300 - 150) + 'px');
+            butterfly.style.setProperty('--dy', (Math.random() * -300 - 50) + 'px');
+            butterfly.style.setProperty('--rot', (Math.random() * 360) + 'deg');
+            
+            document.body.appendChild(butterfly);
+            
+            // Kapalak uchib bo'lgach (2 sekunddan keyin) DOM dan o'chirib tashlaymiz (qotib qolmasligi uchun)
+            setTimeout(() => {
+                butterfly.remove();
+            }, 2000);
+            
+        }, 150);
+    </script>
 </body>
 </html>
