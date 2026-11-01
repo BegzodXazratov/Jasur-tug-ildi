@@ -6,10 +6,10 @@
     <title>Jasur Tug'ildi! 😱</title>
     <style>
         body {
-            /* Ko'zni qamashtiradigan harakatlanuvchi fon */
+            /* Ranglar endi juda sekin (15 sekundda) almashadi, ko'zni qamashtirmaydi */
             background: linear-gradient(45deg, #ff00ff, #00ffff, #ff0000, #00ff00, #ffff00);
             background-size: 400% 400%;
-            animation: gradientBG 3s ease infinite;
+            animation: gradientBG 15s ease infinite;
             color: white;
             font-family: 'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif;
             text-align: center;
@@ -39,7 +39,7 @@
         }
 
         .scroll-space {
-            height: 180vh; /* Saytni uzun qilib skroll qilish uchun */
+            height: 180vh; 
             display: flex;
             flex-direction: column;
             justify-content: space-around;
@@ -69,7 +69,7 @@
             text-shadow: 2px 2px #000;
             transform: rotate(-10deg);
             animation: pulse 0.5s infinite alternate;
-            margin-bottom: 50vh;
+            margin-bottom: 10vh;
         }
 
         @keyframes pulse {
@@ -90,10 +90,41 @@
             color: yellow;
             text-shadow: 2px 2px black;
         }
+
+        /* Kapalak Jasur qismi uchun uslublar */
+        .kapalak-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 40vh; /* Eng pastda osilib turishi uchun joy */
+            margin-top: 15vh;
+        }
+
+        .qanotlar {
+            position: absolute;
+            font-size: 350px; /* Gigant kapalak emojisi */
+            z-index: -1;
+            animation: qanotQoqish 0.15s infinite alternate; /* Tezkor qanot qoqish effekti */
+        }
+
+        .jasur-kalla {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 5px solid #ff00ff;
+            box-shadow: 0 0 20px #ff00ff;
+            z-index: 1;
+        }
+
+        @keyframes qanotQoqish {
+            0% { transform: scaleX(1) translateY(0); }
+            100% { transform: scaleX(0.3) translateY(-30px); }
+        }
     </style>
 </head>
 <body>
-    <!-- Eng asabga tegadigan yuguruvchi qator -->
     <marquee scrollamount="25">🚨 DIQQAT! DIQQAT! JASUR TUG'ILDI! 🚨 QARISH MUBORAK! 🚨</marquee>
 
     <h1>Jasur, Tug'ilgan kuning bilan! 🎂💀</h1>
@@ -101,7 +132,6 @@
     <p style="font-size: 2rem; background: black; display: inline-block; padding: 10px;">Pastga skroll qil... yuraging yetsa!</p>
 
     <br>
-    <!-- Rasm aynan siz aytgan fayl nomida chaqirilgan -->
     <img src="image_ff1da6.png" alt="Jasur" class="jasur-img">
 
     <div class="scroll-space">
@@ -111,12 +141,17 @@
         <p class="taunt-text" style="font-size: 3rem;">Hozir... kelib qoldi...</p>
     </div>
 
-    <!-- Asosiy kutilgan joy -->
     <div class="middle-finger">
         🖕 Kayfingga o'rtancha barmog'im! 🖕<br>
         <span style="font-size: 1.5rem; color: black; text-shadow: none;">(Hazil jigar, uzoq yasha, bor bo'l! 🎉🍻)</span>
     </div>
 
-    <marquee direction="right" scrollamount="35" style="background: red; color: white;">🚀 Begzod tomonidan maxsus! 🚀</marquee>
+    <!-- Kapalak Jasur qismi -->
+    <div class="kapalak-container">
+        <div class="qanotlar">🦋</div>
+        <!-- Agar boshqa rasm qo'shsangiz, mana shu src=" " ichidagi nomni o'zgartiring -->
+        <img src="image_ff1da6.png" alt="Jasur Kapalak" class="jasur-kalla">
+    </div>
+
 </body>
 </html>
